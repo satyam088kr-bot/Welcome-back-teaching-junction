@@ -1,0 +1,163 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account for student or administrator with verification status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "admin"] },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "suspended"] },
+        "assignedClass": { "type": "string" },
+        "enrolledCourseIds": { "type": "array" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "role", "status"]
+    },
+    "Course": {
+      "title": "Course",
+      "description": "Coaching educational course with video lectures and syllabus",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "type": { "type": "string", "enum": ["free", "paid"] },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "classCategory": { "type": "string" },
+        "subject": { "type": "string" },
+        "instructor": { "type": "string" },
+        "thumbnailUrl": { "type": "string" },
+        "enrolledCount": { "type": "number" },
+        "isFeatured": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "type", "classCategory", "subject"]
+    },
+    "StudyMaterial": {
+      "title": "StudyMaterial",
+      "description": "Downloadable or viewable notes and documents across various educational formats",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "classCategory": { "type": "string" },
+        "subject": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "fileName": { "type": "string" },
+        "fileType": { "type": "string" },
+        "fileSizeBytes": { "type": "number" },
+        "fileSize": { "type": "string" },
+        "isProtected": { "type": "boolean" },
+        "downloadCount": { "type": "number" },
+        "uploadedBy": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "classCategory", "subject", "fileUrl"]
+    },
+    "LiveClass": {
+      "title": "LiveClass",
+      "description": "Scheduled or ongoing live class meeting session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "classCategory": { "type": "string" },
+        "subject": { "type": "string" },
+        "teacher": { "type": "string" },
+        "date": { "type": "string" },
+        "startTime": { "type": "string" },
+        "meetingUrl": { "type": "string" },
+        "platform": { "type": "string", "enum": ["google_meet", "youtube_live", "zoom"] },
+        "status": { "type": "string", "enum": ["upcoming", "live_now", "completed"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "classCategory", "subject", "meetingUrl", "status"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Important notice or updates from coaching administration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "priority": { "type": "string", "enum": ["normal", "high", "urgent"] },
+        "targetClass": { "type": "string" },
+        "author": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "content", "priority"]
+    },
+    "PaymentRecord": {
+      "title": "PaymentRecord",
+      "description": "Student course enrollment transaction and verification record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "studentEmail": { "type": "string" },
+        "courseId": { "type": "string" },
+        "courseTitle": { "type": "string" },
+        "amount": { "type": "number" },
+        "transactionId": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending_verification", "verified", "rejected"] },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["id", "studentId", "courseId", "amount", "transactionId", "status"]
+    },
+    "ContactSettings": {
+      "title": "ContactSettings",
+      "description": "Public coaching contact numbers, address, and helpline details",
+      "type": "object",
+      "properties": {
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "website": { "type": "string" },
+        "directorName": { "type": "string" },
+        "helplineHours": { "type": "string" }
+      },
+      "required": ["phone", "whatsapp", "email", "address"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles with role, approval status, and enrolled courses"
+    },
+    "/courses/{courseId}": {
+      "schema": { "$ref": "#/entities/Course" },
+      "description": "Course catalog with syllabus and lecture content"
+    },
+    "/materials/{materialId}": {
+      "schema": { "$ref": "#/entities/StudyMaterial" },
+      "description": "Study materials across multiple document formats"
+    },
+    "/live_classes/{classId}": {
+      "schema": { "$ref": "#/entities/LiveClass" },
+      "description": "Live class schedule and meeting URLs"
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Public and class-specific announcements"
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/PaymentRecord" },
+      "description": "Course purchase and transaction verification records"
+    },
+    "/settings/contact": {
+      "schema": { "$ref": "#/entities/ContactSettings" },
+      "description": "Global coaching contact information and address"
+    }
+  }
+}

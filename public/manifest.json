@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "Teaching Junction Coaching",
+  "short_name": "TJ Coaching",
+  "description": "Teaching Junction Coaching - Premium study material, online courses, and student portal by Er. Satyam Kumar.",
+  "theme_color": "#1E40AF",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "books"]
+}
